@@ -15,31 +15,42 @@ class List extends React.Component {
 
         // vos bind etc...
         this.toggleChange = this.toggleChange.bind(this);
-        
-    }
+        this.addTask = this.addTask.bind(this);
 
-    toggleChange(event) {
-        
     }
+//Update du input au changement de sa valeur
+    toggleChange(e) {
+        this.setState({
+            inputValue : e.target.value
+        },() => console.log(this.state.inputValue))
+
+    };
+    addTask(e){
+        e.preventDefault();
+        this.setState({
+            inputValue : '',
+            tasks :[this.state.tasks, this.state.inputValue]
+        }, ()=> console.log(this.state))
+    };
 
     render() {
         return (
             <Container>
-                 <Box 
+                 <Box
                  display="flex"
-    
+
                  color="red"
                  height={70}
                  shape="rounded"
                  alignItems="center"
                  justifyContent="center"
-                
+
                  >
                     <Heading color="white">
-                        Todo List React - Ricardo
+                        Todo List - Ricardo
                     </Heading>
                 </Box>
-                <Box 
+                <Box
                 display="flex"
                 marginTop={12}
                 height={70}
@@ -47,19 +58,31 @@ class List extends React.Component {
                 alignItems="center"
                 justifyContent="center"
                 color="blue"
-                // shape="roundedBottom"
+                //shape="roundedBottom"
                 >
-                   
-                        <input type="text" value={this.state.inputValue} onChange={this.toggleChange}/>
-                        <button type="button" onClick={this.addTask}>Add task</button>
+                <form onSubmit={this.handleSubmit}>
+                    <input
+                        id="0"
+                        type="text"
+                        value={this.state.inputValue} onChange={this.toggleChange}
+                        />
+                    <button
+                        type="button"
+                        onClick={this.addTask}
+                        >
+                        AJOUTER
+                    </button>
+                </form>
                         {
                             this.state.tasks.map((task, index) => {
                                 return (
-                                    <p>{task}</p>
+                                    <p key={index}>
+                                        {task}| <button>x</button>
+                                    </p>
                                 )
                             })
                         }
-                   
+
                 </Box>
             </Container>
         );
